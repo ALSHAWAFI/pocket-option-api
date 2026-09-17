@@ -197,6 +197,8 @@ More complete examples:
 
 Copy [`.env.example`](.env.example) to `.env` and fill in your credentials:
 
+> Need the session ID and UID? See [Getting Started → Getting Your Credentials](docs/getting-started.md#2-getting-your-credentials) for how to extract them from the browser WebSocket.
+
 ```env
 PO_SESSION=your_session_id_here        # session ID from your browser
 PO_UID=0                               # your user ID

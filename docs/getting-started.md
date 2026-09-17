@@ -31,15 +31,56 @@ pip install pocket-trader[speed]
 
 ## 2. Getting Your Credentials
 
-PocketTrader authenticates over the WebSocket using credentials from your browser session.
+Pocket Option authenticates over the WebSocket with the same payload your browser sends. The most reliable way to obtain it is to read it directly from the WebSocket handshake.
 
-1. Log in to [pocketoption.com](https://pocketoption.com) in your browser.
-2. Open the developer tools (**F12**) → **Application/Storage** → **Cookies**.
-3. Copy the values of:
-   - `ssid` → used as `session`
-   - `uid` → a numeric user ID
+> Adapted from the original project **[lordralinc/pocket_option](https://github.com/lordralinc/pocket_option)** — credit to its author for documenting this method.
 
-> **Security:** Never commit these values. Use a `.env` file (and keep it out of git).
+### Extract from the WebSocket (recommended)
+
+1. Log in to [pocketoption.com](https://pocketoption.com) and open the Developer Tools (**F12**).
+2. Switch to the **Network** tab.
+3. Click the **WS** filter to show only WebSocket connections.
+4. Reload the page, then select the active connection to your region (e.g. `wss://api-eu.po.market/...`).
+5. Open its **Messages** tab (in Chrome: **Frames**) and look for an outgoing message that starts with `42["auth",`.
+6. Copy the `session`, `uid`, and `isDemo` values from that JSON.
+
+The auth frame looks like this — `42` is the Socket.IO packet prefix, followed by the event name and its JSON payload:
+
+```text
+42["auth",{"session":"abcd1234efgh5678","isDemo":1,"uid":1234589,"platform":1}]
+```
+
+| Field      | Meaning |
+|------------|---------|
+| `session`  | Your session token (string) — **treat it like a password** |
+| `uid`      | Your numeric user ID |
+| `isDemo`   | `1` = demo account, `0` = real account |
+| `platform` | Client platform id (e.g. `1` or `2`) |
+
+> **Tip:** In Chrome, enable **Preserve log** and use the message filter box (`auth`) to locate the frame faster. In Firefox the panel is called **Response**/**Messages** and the filter sits at the bottom.
+
+### Alternative: from cookies
+
+1. Open Developer Tools (**F12**) → **Application** (Chrome) or **Storage** (Firefox).
+2. Under **Cookies** for `pocketoption.com`, copy:
+   - `ssid` → use as `session`
+   - `uid` → your numeric user ID
+   - `isDemo` → `1` when the session belongs to the demo account
+
+These map directly onto the `auth` payload used in [Step 4](#4-first-connection):
+
+```python
+{
+    "session": SESSION_ID,   # from the WS frame or the ssid cookie
+    "isDemo": 1,             # 1 = demo, 0 = real
+    "uid": UID,
+    "platform": 1,
+    "isFastHistory": True,
+    "isOptimized": True,
+}
+```
+
+> **Security:** Never commit these values. Keep them in `.env` (already excluded by `.gitignore`). If a session is ever exposed, log out of Pocket Option to invalidate it.
 
 ---
 
