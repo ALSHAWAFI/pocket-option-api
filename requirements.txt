@@ -1,5 +1,5 @@
 # requirements.txt
-# Pocket Trader v2.0.0 dependencies
+# Pocket Option API v2.0.0 core dependencies
 
 # Core WebSocket client
 python-socketio[asyncio-client]>=5.14.2,<7.0.0
@@ -21,6 +21,7 @@ python-dotenv>=0.19.0,<2.0.0
 # Compression
 brotli>=1.0.0,<2.0.0
 
-# Optional: Faster JSON (install with: pip install pocket-trader[speed])
-ujson>=5.0.0,<6.0.0
-orjson>=3.6.0,<4.0.0
+# Optional extras (install with: pip install "pocket-trader[speed]" / "[db]" / "[ml]" / "[full]")
+#   speed: ujson, orjson
+#   db:    sqlalchemy
+#   ml:    scikit-learn, scipy
