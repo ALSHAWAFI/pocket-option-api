@@ -1,0 +1,41 @@
+{#
+Template for on event methods
+#}
+@typing.overload
+def {{ method.name }}(self, handler: None = None) -> Callable[[TypedEventListener[{{ method.return_type }}]], None]:
+    """
+    {{ method.doc }} - Decorator overload
+    """
+    ...
+
+@typing.overload
+def {{ method.name }}(self, handler: TypedEventListener[{{ method.return_type }}]) -> None:
+    """
+    {{ method.doc }} - Direct call overload
+    """
+    ...
+
+def {{ method.name }}(self, handler: Optional[TypedEventListener[{{ method.return_type }}]] = None) -> Optional[Callable[[TypedEventListener[{{ method.return_type }}]], None]]:
+    """
+    {{ method.doc }}
+    
+    Args:
+        handler: Async or sync callback function that receives {{ method.return_type }}
+        
+    Returns:
+        Decorator function if handler is None, otherwise None
+        
+    Raises:
+        TypeError: If handler is not callable
+        
+    Example:
+        @client.on.{{ method.name }}
+        async def handle_event(data: {{ method.return_type }}):
+            # Process the event
+            print(f"Received: {data}")
+    """
+    return self.client.add_on(
+        "{{ method.event }}",
+        handler=handler,
+        model={% if method.pydantic_model and method.pydantic_model != "None" %}{{ method.pydantic_model }}{% else %}None{% endif %}
+    )

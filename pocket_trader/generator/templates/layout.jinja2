@@ -1,0 +1,127 @@
+"""
+Generated Pocket Option client
+DO NOT EDIT - This file is auto-generated
+Generated on: {{ generated_date }}
+Version: {{ version }}
+"""
+
+import typing
+from typing import Optional, Callable, Awaitable, Any
+
+from pocket_trader import models
+from pocket_trader.client import BasePocketOptionClient
+
+{% for import_stmt in imports %}
+{{ import_stmt }}
+{% endfor %}
+
+if typing.TYPE_CHECKING:
+    from pocket_trader.types import TypedEventListener
+
+__all__ = ("PocketOptionClient",)
+
+
+class PocketOptionClientEmit:
+    """
+    Emit methods for Pocket Option client
+
+    This class contains all methods for sending events to the server.
+    Each method corresponds to a specific event type.
+    """
+
+    def __init__(self, client: BasePocketOptionClient) -> None:
+        self.client = client
+
+{% for method in emit_methods %}
+    async def {{ method.name }}(self{% if method.args %}, {{ method.args.name }}: {{ method.args.type }}{% endif %}) -> None:
+        """
+        {{ method.doc }}
+
+        {% if method.args %}
+        Args:
+            {{ method.args.name }}: {{ method.args.type }} - Event data
+        {% endif %}
+        """
+        {% if method.args %}
+        await self.client.send("{{ method.event }}", {{ method.args.name }})
+        {% else %}
+        await self.client.send("{{ method.event }}")
+        {% endif %}
+
+{% endfor %}
+
+class PocketOptionClientOn:
+    """
+    Event handlers for Pocket Option client
+
+    This class contains all methods for handling incoming events.
+    Each method can be used as a decorator or called directly.
+
+    Example:
+        @client.on.update_balance
+        async def handle_balance(data: models.SuccessUpdateBalanceEvent):
+            print(f"New balance: {data.balance}")
+    """
+
+    def __init__(self, client: BasePocketOptionClient) -> None:
+        self.client = client
+
+{% for method in on_methods %}
+    @typing.overload
+    def {{ method.name }}(self, handler: None = None) -> Callable[[TypedEventListener[{{ method.return_type }}]], None]:
+        """Decorator overload"""
+        ...
+
+    @typing.overload
+    def {{ method.name }}(self, handler: TypedEventListener[{{ method.return_type }}]) -> None:
+        """Direct call overload"""
+        ...
+
+    def {{ method.name }}(self, handler: Optional[TypedEventListener[{{ method.return_type }}]] = None) -> Optional[Callable[[TypedEventListener[{{ method.return_type }}]], None]]:
+        """
+        {{ method.doc }}
+
+        Args:
+            handler: Async or sync callback function
+
+        Returns:
+            Decorator function if handler is None, otherwise None
+
+        Example:
+            @client.on.{{ method.name }}
+            async def handler(data: {{ method.return_type }}):
+                print(data)
+        """
+        return self.client.add_on(
+            "{{ method.event }}",
+            handler=handler,
+            model={% if method.pydantic_model and method.pydantic_model != "null" %}{{ method.pydantic_model }}{% else %}None{% endif %}
+        )
+
+{% endfor %}
+class PocketOptionClient(BasePocketOptionClient):
+    """
+    Complete Pocket Option client
+
+    This is the main client class that combines all functionality.
+    Use `on` for event handlers and `emit` for sending events.
+
+    Example:
+        client = PocketOptionClient()
+        await client.connect("wss://api-eu.po.market")
+        await client.emit.auth(auth_data)
+
+        @client.on.update_balance
+        async def on_balance(data):
+            print(f"Balance: {data.balance}")
+    """
+
+    @property
+    def on(self) -> PocketOptionClientOn:
+        """Get event handlers namespace"""
+        return PocketOptionClientOn(self)
+
+    @property
+    def emit(self) -> PocketOptionClientEmit:
+        """Get emit methods namespace"""
+        return PocketOptionClientEmit(self)

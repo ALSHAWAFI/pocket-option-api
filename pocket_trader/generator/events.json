@@ -1,0 +1,337 @@
+{
+    "imports": [
+        "from pocket_trader.types import TypedEventListener",
+        "from typing import Any"
+    ],
+    "on": [
+        {
+            "name": "update_balance",
+            "event": "successupdateBalance",
+            "return_type": "models.SuccessUpdateBalanceEvent",
+            "pydantic_model": "models.SuccessUpdateBalanceEvent",
+            "doc": "Handle balance update events"
+        },
+        {
+            "name": "update_history_new_fast",
+            "event": "updateHistoryNewFast",
+            "return_type": "models.UpdateHistoryFastEvent",
+            "pydantic_model": "models.UpdateHistoryFastEvent",
+            "doc": "Handle historical candle updates"
+        },
+        {
+            "name": "update_close_value",
+            "event": "updateStream",
+            "return_type": "list",
+            "pydantic_model": "None",
+            "doc": "Handle real-time price updates (39-byte stream)"
+        },
+        {
+            "name": "update_opened_deals",
+            "event": "updateOpenedDeals",
+            "return_type": "list[models.Deal]",
+            "pydantic_model": "models.DealListTypeAdapter",
+            "doc": "Handle opened deals updates"
+        },
+        {
+            "name": "success_open_deal",
+            "event": "successopenOrder",
+            "return_type": "models.Deal",
+            "pydantic_model": "models.Deal",
+            "doc": "Handle successful deal opening"
+        },
+        {
+            "name": "update_closed_deals",
+            "event": "updateClosedDeals",
+            "return_type": "list[models.Deal]",
+            "pydantic_model": "models.DealListTypeAdapter",
+            "doc": "Handle closed deals updates"
+        },
+        {
+            "name": "update_assets",
+            "event": "updateAssets",
+            "return_type": "list[models.UpdateAssetItem]",
+            "pydantic_model": "models.UpdateAssetItemListTypeAdapter",
+            "doc": "Handle asset updates"
+        },
+        {
+            "name": "success_close_deal",
+            "event": "successcloseOrder",
+            "return_type": "models.SuccessCloseDealEvent",
+            "pydantic_model": "models.SuccessCloseDealEvent",
+            "doc": "Handle successful deal closing"
+        },
+        {
+            "name": "success_update_pending",
+            "event": "successupdatePending",
+            "return_type": "list",
+            "pydantic_model": "None",
+            "doc": "Handle pending deals updates"
+        },
+        {
+            "name": "update_charts",
+            "event": "updateCharts",
+            "return_type": "list",
+            "pydantic_model": "None",
+            "doc": "Handle chart updates"
+        },
+        {
+            "name": "update_indicators",
+            "event": "updateIndicators",
+            "return_type": "dict",
+            "pydantic_model": "None",
+            "doc": "Handle indicators updates"
+        },
+        {
+            "name": "update_favorites",
+            "event": "updateFavorites",
+            "return_type": "list",
+            "pydantic_model": "None",
+            "doc": "Handle favorites updates"
+        },
+        {
+            "name": "update_price_alerts",
+            "event": "updatePriceAlerts",
+            "return_type": "list",
+            "pydantic_model": "None",
+            "doc": "Handle price alerts updates"
+        },
+        {
+            "name": "success_auth",
+            "event": "successauth",
+            "return_type": "models.SuccessAuthEvent",
+            "pydantic_model": "models.SuccessAuthEvent",
+            "doc": "Handle successful authentication"
+        },
+        {
+            "name": "change_market_sentiment",
+            "event": "chafor",
+            "return_type": "list[models.MarketSentimentItem]",
+            "pydantic_model": "models.MarketSentimentItemListTypeAdapter",
+            "doc": "Handle market sentiment changes (19-byte signals)"
+        },
+        {
+            "name": "ping_server",
+            "event": "ping-server",
+            "return_type": "None",
+            "pydantic_model": "None",
+            "doc": "Handle server ping"
+        },
+        {
+            "name": "pong",
+            "event": "pong",
+            "return_type": "None",
+            "pydantic_model": "None",
+            "doc": "Handle server pong response"
+        },
+        {
+            "name": "connect",
+            "event": "connect",
+            "return_type": "None",
+            "pydantic_model": "None",
+            "doc": "Handle connection event"
+        },
+        {
+            "name": "disconnect",
+            "event": "disconnect",
+            "return_type": "None",
+            "pydantic_model": "None",
+            "doc": "Handle disconnection event"
+        },
+        {
+            "name": "reconnect",
+            "event": "reconnect",
+            "return_type": "None",
+            "pydantic_model": "None",
+            "doc": "Handle reconnect event"
+        },
+        {
+            "name": "reconnect_attempt",
+            "event": "reconnect_attempt",
+            "return_type": "int",
+            "pydantic_model": "None",
+            "doc": "Handle reconnect attempt event"
+        },
+        {
+            "name": "reconnecting",
+            "event": "reconnecting",
+            "return_type": "None",
+            "pydantic_model": "None",
+            "doc": "Handle reconnecting event"
+        },
+        {
+            "name": "reconnect_error",
+            "event": "reconnect_error",
+            "return_type": "Any",
+            "pydantic_model": "None",
+            "doc": "Handle reconnect error event"
+        },
+        {
+            "name": "reconnect_failed",
+            "event": "reconnect_failed",
+            "return_type": "None",
+            "pydantic_model": "None",
+            "doc": "Handle reconnect failed event"
+        },
+        {
+            "name": "error",
+            "event": "error",
+            "return_type": "Any",
+            "pydantic_model": "None",
+            "doc": "Handle socket.io error events"
+        },
+        {
+            "name": "connect_error",
+            "event": "connect_error",
+            "return_type": "Any",
+            "pydantic_model": "None",
+            "doc": "Handle connection error event"
+        },
+        {
+            "name": "connecting",
+            "event": "connecting",
+            "return_type": "None",
+            "pydantic_model": "None",
+            "doc": "Handle connecting event"
+        }
+    ],
+    "emit": [
+        {
+            "name": "ps",
+            "event": "ps",
+            "doc": "Send ping to server"
+        },
+        {
+            "name": "indicator_load",
+            "event": "indicator/load",
+            "doc": "Load indicators"
+        },
+        {
+            "name": "favorite_load",
+            "event": "favorite/load",
+            "doc": "Load favorites"
+        },
+        {
+            "name": "price_alert_load",
+            "event": "price-alert/load",
+            "doc": "Load price alerts"
+        },
+        {
+            "name": "auth",
+            "event": "auth",
+            "args": {
+                "name": "data",
+                "type": "models.AuthorizationData"
+            },
+            "doc": "Authenticate with server"
+        },
+        {
+            "name": "subscribe_to_asset",
+            "event": "subscribeSymbol",
+            "args": {
+                "name": "asset",
+                "type": "models.Asset"
+            },
+            "doc": "Subscribe to asset for real-time updates"
+        },
+        {
+            "name": "unsubscribe_from_asset",
+            "event": "unsubscribeSymbol",
+            "args": {
+                "name": "asset",
+                "type": "models.Asset"
+            },
+            "doc": "Unsubscribe from asset updates"
+        },
+        {
+            "name": "subscribe_for_market_sentiment",
+            "event": "subfor",
+            "args": {
+                "name": "asset",
+                "type": "models.Asset"
+            },
+            "doc": "Subscribe to market sentiment for asset"
+        },
+        {
+            "name": "unsubscribe_for_market_sentiment",
+            "event": "unsubfor",
+            "args": {
+                "name": "asset",
+                "type": "models.Asset"
+            },
+            "doc": "Unsubscribe from market sentiment"
+        },
+        {
+            "name": "change_asset",
+            "event": "changeSymbol",
+            "args": {
+                "name": "data",
+                "type": "models.ChangeAssetRequest"
+            },
+            "doc": "Change current asset"
+        },
+        {
+            "name": "open_deal",
+            "event": "openOrder",
+            "args": {
+                "name": "data",
+                "type": "models.OpenDealRequest"
+            },
+            "doc": "Open a new deal/trade"
+        },
+        {
+            "name": "close_deal",
+            "event": "closeOrder",
+            "args": {
+                "name": "deal_id",
+                "type": "str"
+            },
+            "doc": "Close an existing deal"
+        },
+        {
+            "name": "cancel_pending_deal",
+            "event": "cancelPendingOrder",
+            "args": {
+                "name": "deal_id",
+                "type": "str"
+            },
+            "doc": "Cancel a pending deal"
+        },
+        {
+            "name": "copy_signal",
+            "event": "copySignalOrder",
+            "args": {
+                "name": "data",
+                "type": "models.CopySignalRequest"
+            },
+            "doc": "Copy a signal from another trader"
+        },
+        {
+            "name": "get_candles",
+            "event": "getCandles",
+            "args": {
+                "name": "data",
+                "type": "dict"
+            },
+            "doc": "Request historical candles"
+        },
+        {
+            "name": "get_history",
+            "event": "getHistory",
+            "args": {
+                "name": "data",
+                "type": "dict"
+            },
+            "doc": "Request trading history"
+        },
+        {
+            "name": "get_assets",
+            "event": "getAssets",
+            "doc": "Request available assets"
+        },
+        {
+            "name": "get_balance",
+            "event": "getBalance",
+            "doc": "Request current balance"
+        }
+    ]
+}

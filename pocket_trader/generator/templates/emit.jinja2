@@ -1,0 +1,28 @@
+{#
+Template for emit methods
+#}
+async def {{ method.name }}(self{% if method.args %}, {{ method.args.name }}: {{ method.args.type }}{% endif %}) -> None:
+    """
+    {{ method.doc }}
+    
+    {% if method.args %}
+    Args:
+        {{ method.args.name }}: {{ method.args.type }} - The data to send
+    
+    Raises:
+        ConnectionError: If not connected
+        ValueError: If data is invalid
+    {% endif %}
+    
+    Example:
+        {% if method.args %}
+        await client.emit.{{ method.name }}({{ method.args.name }})
+        {% else %}
+        await client.emit.{{ method.name }}()
+        {% endif %}
+    """
+    {% if method.args %}
+    await self.client.send("{{ method.event }}", {{ method.args.name }})
+    {% else %}
+    await self.client.send("{{ method.event }}")
+    {% endif %}

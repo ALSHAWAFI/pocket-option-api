@@ -1,0 +1,38 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.env
+
+# Local databases and data
+*.db
+*.sqlite
+*.sqlite3
+trading_data.db
+
+# Logs
+*.log
+logs/
+
+# Caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Build artifacts
+build/
+dist/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
