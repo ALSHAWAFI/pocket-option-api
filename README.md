@@ -261,7 +261,7 @@ generate-client
 
 Pocket Option API is an independent, community effort. It is developed on top of, and adapts ideas, protocol research, and code from, the work of earlier developers and open-source contributors.
 
-- **Yury "lordralinc" Yushmanov** — original socket/protocol work that this project builds upon.
+- **[Yury "lordralinc" Yushmanov](https://github.com/lordralinc/pocket_option)** — original project and socket/protocol work that this project builds upon.
 - The wider open-source community whose public research into the platform's protocol made this library possible.
 
 If your work has been used here and is not credited correctly, please open an issue so it can be updated.
