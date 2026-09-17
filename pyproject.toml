@@ -3,7 +3,7 @@ name = "pocket-trader"
 version = "2.0.0"
 description = "Unofficial, community-driven Python API client for the Pocket Option trading platform - async WebSocket client, typed models, real-time streams, indicators, and risk utilities"
 authors = [
-    { name = "PocketTrader Team", email = "support@pocket-trader.io" },
+    { name = "ALSHAWAFI", email = "awadh.shwafi@gmail.com" },
     { name = "Yury \"lordralinc\" Yushmanov" }
 ]
 license = "MIT"
