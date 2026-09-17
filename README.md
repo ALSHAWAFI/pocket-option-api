@@ -195,9 +195,33 @@ More complete examples:
 
 ## Configuration
 
-Copy [`.env.example`](.env.example) to `.env` and fill in your credentials:
+### Getting your session ID and UID
 
-> Need the session ID and UID? See [Getting Started → Getting Your Credentials](docs/getting-started.md#2-getting-your-credentials) for how to extract them from the browser WebSocket.
+The client authenticates over the WebSocket with the same payload your browser sends. Read it directly from the WebSocket handshake:
+
+1. Log in to [pocketoption.com](https://pocketoption.com) and open the Developer Tools (**F12**).
+2. Go to the **Network** tab and click the **WS** filter.
+3. Reload the page, then select the active connection to your region (e.g. `wss://api-eu.po.market/...`).
+4. Open its **Messages** tab (Chrome: **Frames**) and find the outgoing message starting with `42["auth",`.
+5. Copy the `session`, `uid`, and `isDemo` values from that JSON.
+
+The auth frame looks like this (`42` is the Socket.IO packet prefix):
+
+```text
+42["auth",{"session":"abcd1234efgh5678","isDemo":1,"uid":1234589,"platform":1}]
+```
+
+| Field | Meaning |
+|-------|---------|
+| `session` | Your session token (string) — **treat it like a password** |
+| `uid` | Your numeric user ID |
+| `isDemo` | `1` = demo account, `0` = real account |
+
+> Adapted from the original project **[lordralinc/pocket_option](https://github.com/lordralinc/pocket_option)**. A cookie-based alternative (`ssid`/`uid`) is described in [Getting Started](docs/getting-started.md#2-getting-your-credentials).
+
+### Set up `.env`
+
+Copy [`.env.example`](.env.example) to `.env` and fill in your credentials:
 
 ```env
 PO_SESSION=your_session_id_here        # session ID from your browser
